@@ -1,1 +1,105 @@
+Customer Segmentation Dashboard
+This is an interactive web dashboard for customer segmentation analysis. The application is built with Flask and provides a visual interface to explore customer demographics, purchasing behavior, and marketing campaign data. The dashboard also features customer segmentation using a K-Means clustering model.
 
+Features
+Interactive Dashboard: A user-friendly interface to visualize and analyze customer data.
+
+Dynamic Filtering: Filter data by education level, marital status, and income range to get more granular insights.
+
+Comprehensive Visualizations: A wide range of charts and graphs to represent data, including:
+
+Customer demographics (age, income, education, marital status)
+
+Purchasing behavior (purchase channels, product spending, recency vs. spend)
+
+Marketing campaign analysis (acceptance rates, web activity)
+
+Customer Segmentation: Utilizes a K-Means clustering model to segment customers into distinct groups based on their characteristics.
+
+RESTful API: A Flask-based backend that serves data to the frontend, making it easy to extend or connect with other applications.
+
+Technologies Used
+Backend: Flask, Pandas, Scikit-learn, NumPy
+
+Frontend: HTML, CSS, JavaScript, Bootstrap, Chart.js, ApexCharts
+
+Machine Learning: K-Means Clustering, Decision Tree Classifier (within a Scikit-learn pipeline)
+
+Setup and Installation
+To run this project locally, follow these steps:
+
+1. Prerequisites:
+
+Python 3.6+
+
+pip (Python package installer)
+
+2. Clone the repository:
+
+git clone [https://github.com/your-username/customer-segmentation-dashboard.git](https://github.com/your-username/customer-segmentation-dashboard.git)
+cd customer-segmentation-dashboard
+
+3. Install dependencies:
+It's recommended to use a virtual environment.
+
+python -m venv venv
+source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+
+Install the required packages from requirements.txt:
+
+pip install -r requirements.txt
+
+(Note: You'll need to create a requirements.txt file. You can generate one using pip freeze > requirements.txt after installing the necessary libraries: Flask, pandas, scikit-learn, numpy, joblib)
+
+4. Run the application:
+
+python app.py
+
+The application will be available at http://127.0.0.1:5000.
+
+Usage
+Once the application is running, open your web browser and navigate to http://127.0.0.1:5000. You can interact with the dashboard by:
+
+Navigating through sections: Use the sidebar to jump to different sections of the dashboard (Overview, Demographics, etc.).
+
+Filtering data: Use the dropdown menus at the top of the page to filter the data based on customer attributes. Click "Apply Filters" to update the visualizations.
+
+Exploring charts: Hover over the charts to see more details and tooltips.
+
+API Endpoints
+The Flask application provides the following API endpoints to serve data to the dashboard:
+
+GET /: Renders the main dashboard.html page.
+
+GET /api/data/overview: Returns an overview of the customer data.
+
+GET /api/data/demographics: Provides demographic data for visualizations.
+
+GET /api/data/purchasing: Returns data on purchasing behavior.
+
+GET /api/data/campaigns: Provides data related to marketing campaigns.
+
+GET /api/data/segments: Returns customer segmentation data from the K-Means model.
+
+POST /api/data/filtered: Filters the data based on the JSON payload and returns the updated data for all sections.
+
+Project Structure
+.
+├── app.py                  # Main Flask application
+├── dashboard.html            # Frontend dashboard template
+├── customer_segmentation.csv # Dataset
+├── pipeline.pkl              # Saved machine learning pipeline for prediction
+├── kmeans_clustering.pkl     # Saved K-Means clustering model
+├── requirements.txt          # Python dependencies
+└── README.md                 # This file
+
+Modeling
+Customer Segmentation: A K-Means clustering algorithm is used to group customers into four distinct segments based on their age, income, spending habits, and other behavioral data.
+
+Prediction: A Decision Tree Classifier, integrated into a Scikit-learn pipeline, is also available in the project files. This can be used for predictive tasks, such as forecasting customer response to marketing campaigns.
+
+Contributing
+Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
+
+License
+This project is licensed under the MIT License. See the LICENSE file for more details.
