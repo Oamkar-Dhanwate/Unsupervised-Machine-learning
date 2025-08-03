@@ -37,6 +37,13 @@ An interactive web dashboard for customer segmentation analysis, built with Flas
 
 ### Webpages
 ![Dashboard Screenshot](https://github.com/Oamkar-Dhanwate/Unsupervised-Machine-learning/blob/main/Customer_Segmentation(e-commerse)/Web_page/images/Screenshot%202025-08-03%20013809.png)
+![Dashboard Screenshot](https://github.com/Oamkar-Dhanwate/Unsupervised-Machine-learning/blob/main/Customer_Segmentation(e-commerse)/Web_page/images/Screenshot%202025-08-03%20105533.png)
+![Dashboard Screenshot](https://github.com/Oamkar-Dhanwate/Unsupervised-Machine-learning/blob/main/Customer_Segmentation(e-commerse)/Web_page/images/Screenshot%202025-08-03%20105618.png)
+![Dashboard Screenshot](https://github.com/Oamkar-Dhanwate/Unsupervised-Machine-learning/blob/main/Customer_Segmentation(e-commerse)/Web_page/images/Screenshot%202025-08-03%20105632.png)
+![Dashboard Screenshot](https://github.com/Oamkar-Dhanwate/Unsupervised-Machine-learning/blob/main/Customer_Segmentation(e-commerse)/Web_page/images/Screenshot%202025-08-03%20105651.png)
+![Dashboard Screenshot](https://github.com/Oamkar-Dhanwate/Unsupervised-Machine-learning/blob/main/Customer_Segmentation(e-commerse)/Web_page/images/Screenshot%202025-08-03%20105651.png)
+![Dashboard Screenshot](https://github.com/Oamkar-Dhanwate/Unsupervised-Machine-learning/blob/main/Customer_Segmentation(e-commerse)/Web_page/images/Screenshot%202025-08-03%20105838.png)
+![Dashboard Screenshot](https://github.com/Oamkar-Dhanwate/Unsupervised-Machine-learning/blob/main/Customer_Segmentation(e-commerse)/Web_page/images/Screenshot%202025-08-03%20105900.png)
 
 ### Installation
 ```bash
