@@ -35,6 +35,9 @@ An interactive web dashboard for customer segmentation analysis, built with Flas
 - Python 3.6+
 - pip
 
+### Webpages
+![Dashboard Screenshot](./images/dashboard-screenshot.png)
+
 ### Installation
 ```bash
 # Clone repository
@@ -47,3 +50,5 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+
