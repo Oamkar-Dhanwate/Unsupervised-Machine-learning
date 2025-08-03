@@ -36,7 +36,7 @@ An interactive web dashboard for customer segmentation analysis, built with Flas
 - pip
 
 ### Webpages
-![Dashboard Screenshot](./images/dashboard-screenshot.png)
+![Dashboard Screenshot](https://github.com/Oamkar-Dhanwate/Unsupervised-Machine-learning/blob/main/Customer_Segmentation(e-commerse)/Web_page/images/Screenshot%202025-08-03%20013809.png)
 
 ### Installation
 ```bash
