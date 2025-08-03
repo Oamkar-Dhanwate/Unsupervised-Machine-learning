@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Segmentation Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sidebar {
+            background-color: #343a40;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-header {
+            background-color: #6c757d;
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 15px;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .filter-section {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar col-md-3 col-lg-2">
+        <div class="text-center mb-4">
+            <h4>Customer Segmentation</h4>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active text-white" href="#overview">Overview</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#demographics">Demographics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#purchasing">Purchasing Behavior</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#campaigns">Marketing Campaigns</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#segments">Customer Segments</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="filter-section">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="education-filter" class="form-label">Education</label>
+                        <select class="form-select" id="education-filter">
+                            <option value="all">All Education Levels</option>
+                            <!-- Options will be populated from data -->
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="marital-filter" class="form-label">Marital Status</label>
+                        <select class="form-select" id="marital-filter">
+                            <option value="all">All Statuses</option>
+                            <!-- Options will be populated from data -->
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="income-filter" class="form-label">Income Range</label>
+                        <select class="form-select" id="income-filter">
+                            <option value="all">All Incomes</option>
+                            <option value="low">Low (0-30k)</option>
+                            <option value="medium">Medium (30k-60k)</option>
+                            <option value="high">High (60k+)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button class="btn btn-primary w-100" id="apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="overview">
+                <h2 class="mb-4">Overview</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card stat-card">
+                            <div class="stat-value" id="total-customers">...</div>
+                            <div class="stat-label">Total Customers</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card">
+                            <div class="stat-value" id="avg-income">...</div>
+                            <div class="stat-label">Average Income</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card">
+                            <div class="stat-value" id="avg-age">...</div>
+                            <div class="stat-label">Average Age</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card">
+                            <div class="stat-value" id="avg-spend">...</div>
+                            <div class="stat-label">Avg. Total Spend</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Income Distribution
+                            </div>
+                            <div class="card-body">
+                                <canvas id="incomeChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Age Distribution
+                            </div>
+                            <div class="card-body">
+                                <div id="ageChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="demographics" class="mt-5">
+                <h2 class="mb-4">Demographics</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Education Level
+                            </div>
+                            <div class="card-body">
+                                <canvas id="educationChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Marital Status
+                            </div>
+                            <div class="card-body">
+                                <canvas id="maritalChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Household Composition
+                            </div>
+                            <div class="card-body">
+                                <canvas id="householdChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Enrollment Over Time
+                            </div>
+                            <div class="card-body">
+                                <div id="enrollmentChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="purchasing" class="mt-5">
+                <h2 class="mb-4">Purchasing Behavior</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Purchase Channels
+                            </div>
+                            <div class="card-body">
+                                <canvas id="purchaseChannelChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Product Category Spending
+                            </div>
+                            <div class="card-body">
+                                <div id="productSpendChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                Recency vs. Total Spend
+                            </div>
+                            <div class="card-body">
+                                <div id="recencySpendChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="campaigns" class="mt-5">
+                <h2 class="mb-4">Marketing Campaigns</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Campaign Acceptance Rates
+                            </div>
+                            <div class="card-body">
+                                <canvas id="campaignChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Web Visits vs. Purchases
+                            </div>
+                            <div class="card-body">
+                                <div id="webVisitsChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="segments" class="mt-5 mb-5">
+                <h2 class="mb-4">Customer Segments</h2>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                Cluster Analysis
+                            </div>
+                            <div class="card-body">
+                                <div id="clusterChart"></div>
+                                <div class="mt-3">
+                                    <h5>Segment Descriptions</h5>
+                                    <div class="row" id="segment-descriptions">
+                                        <!-- Will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let charts = {}; // To hold chart instances
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch and display all data on load
+            fetchAndRenderAllData();
+        });
+
+        document.getElementById('apply-filters').addEventListener('click', async function() {
+            const filters = {
+                education: document.getElementById('education-filter').value,
+                marital_status: document.getElementById('marital-filter').value,
+                income_range: document.getElementById('income-filter').value
+            };
+
+            const response = await fetch('/api/data/filtered', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(filters),
+            });
+            const data = await response.json();
+
+            // Destroy old charts
+            Object.values(charts).forEach(chart => {
+                if (chart && typeof chart.destroy === 'function') {
+                    chart.destroy();
+                }
+            });
+            charts = {};
+
+            // Render all charts with new data
+            renderOverviewData(data.overview);
+            renderDemographicsData(data.demographics);
+            renderPurchasingData(data.purchasing);
+            renderCampaignsData(data.campaigns);
+            renderSegmentsData(data.segments);
+        });
+
+        async function fetchAndRenderAllData() {
+            const [overview, demographics, purchasing, campaigns, segments] = await Promise.all([
+                fetch('/api/data/overview').then(res => res.json()),
+                fetch('/api/data/demographics').then(res => res.json()),
+                fetch('/api/data/purchasing').then(res => res.json()),
+                fetch('/api/data/campaigns').then(res => res.json()),
+                fetch('/api/data/segments').then(res => res.json())
+            ]);
+
+            renderOverviewData(overview);
+            renderDemographicsData(demographics);
+            renderPurchasingData(purchasing);
+            renderCampaignsData(campaigns);
+            renderSegmentsData(segments);
+        }
+
+        // Render functions (take data as argument)
+        function renderOverviewData(data) {
+            document.getElementById('total-customers').textContent = data.total_customers;
+            document.getElementById('avg-income').textContent = data.avg_income;
+            document.getElementById('avg-age').textContent = data.avg_age;
+            document.getElementById('avg-spend').textContent = data.avg_spend;
+
+            charts.incomeChart = new Chart(document.getElementById('incomeChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: data.income_distribution.labels,
+                    datasets: [{ label: 'Number of Customers', data: data.income_distribution.data, backgroundColor: 'rgba(54, 162, 235, 0.7)' }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+            });
+
+            charts.ageChart = new ApexCharts(document.querySelector("#ageChart"), {
+                series: [{ name: 'Customers', data: data.age_distribution.data }],
+                chart: { type: 'bar', height: 350 },
+                plotOptions: { bar: { borderRadius: 4, horizontal: true } },
+                dataLabels: { enabled: false },
+                xaxis: { categories: data.age_distribution.labels }
+            });
+            charts.ageChart.render();
+        }
+
+        function renderDemographicsData(data) {
+            const educationFilter = document.getElementById('education-filter');
+            if (educationFilter.options.length <= 1) { // Populate only once
+                data.education_distribution.labels.forEach(label => educationFilter.innerHTML += `<option value="${label}">${label}</option>`);
+            }
+            
+            const maritalFilter = document.getElementById('marital-filter');
+            if (maritalFilter.options.length <= 1) { // Populate only once
+                data.marital_distribution.labels.forEach(label => maritalFilter.innerHTML += `<option value="${label}">${label}</option>`);
+            }
+
+            charts.educationChart = new Chart(document.getElementById('educationChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: data.education_distribution.labels,
+                    datasets: [{ data: data.education_distribution.data, backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            charts.maritalChart = new Chart(document.getElementById('maritalChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: data.marital_distribution.labels,
+                    datasets: [{ data: data.marital_distribution.data, backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'] }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+            
+            charts.householdChart = new Chart(document.getElementById('householdChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: data.kidhome_distribution.labels,
+                    datasets: [
+                        { label: 'Kids at Home', data: data.kidhome_distribution.data, backgroundColor: 'rgba(54, 162, 235, 0.7)' },
+                        { label: 'Teens at Home', data: data.teenhome_distribution.data, backgroundColor: 'rgba(255, 99, 132, 0.7)' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+            });
+
+            charts.enrollmentChart = new ApexCharts(document.querySelector("#enrollmentChart"), {
+                series: [{ name: 'New Customers', data: data.enrollment_distribution.data }],
+                chart: { type: 'line', height: 350 },
+                stroke: { curve: 'smooth', width: 3 },
+                xaxis: { categories: data.enrollment_distribution.labels }
+            });
+            charts.enrollmentChart.render();
+        }
+        
+        function renderPurchasingData(data) {
+            charts.purchaseChannelChart = new Chart(document.getElementById('purchaseChannelChart').getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: data.purchase_channels.labels,
+                    datasets: [{
+                        label: 'Average Purchases',
+                        data: data.purchase_channels.data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        pointBackgroundColor: 'rgba(75, 192, 192, 1)'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { r: { suggestedMin: 0 } } }
+            });
+            
+            charts.productSpendChart = new ApexCharts(document.querySelector("#productSpendChart"), {
+                series: [{ name: 'Average Spend', data: data.product_spending.data }],
+                chart: { type: 'bar', height: 350 },
+                plotOptions: { bar: { borderRadius: 4, horizontal: true } },
+                dataLabels: { enabled: false },
+                xaxis: { categories: data.product_spending.labels }
+            });
+            charts.productSpendChart.render();
+            
+            charts.recencySpendChart = new ApexCharts(document.querySelector("#recencySpendChart"), {
+                series: [{ name: "Total Spend", data: data.recency_spend.map(d => ({ x: d.Recency, y: d.total_amount })) }],
+                chart: { height: 350, type: 'scatter', zoom: { enabled: true, type: 'xy' } },
+                xaxis: { title: { text: 'Days Since Last Purchase' } },
+                yaxis: { title: { text: 'Total Spend' } }
+            });
+            charts.recencySpendChart.render();
+        }
+        
+        function renderCampaignsData(data) {
+            charts.campaignChart = new Chart(document.getElementById('campaignChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Campaign 1', 'Campaign 2', 'Campaign 3', 'Campaign 4', 'Campaign 5'],
+                    datasets: [
+                        { label: 'Accepted', data: data.campaign_acceptance.accepted, backgroundColor: 'rgba(75, 192, 192, 0.7)' },
+                        { label: 'Rejected', data: data.campaign_acceptance.rejected, backgroundColor: 'rgba(255, 99, 132, 0.7)' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } }
+            });
+
+            charts.webVisitsChart = new ApexCharts(document.querySelector("#webVisitsChart"), {
+                series: [
+                    { name: 'Web Visits', data: data.web_activity.visits },
+                    { name: 'Web Purchases', data: data.web_activity.purchases }
+                ],
+                chart: { height: 350, type: 'line', zoom: { enabled: false } },
+                dataLabels: { enabled: false },
+                stroke: { curve: 'straight', width: 2 },
+                title: { text: 'Monthly Web Activity', align: 'left' },
+                xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] }
+            });
+            charts.webVisitsChart.render();
+        }
+
+        function renderSegmentsData(data) {
+            charts.clusterChart = new ApexCharts(document.querySelector("#clusterChart"), {
+                series: data.cluster_data.map(cluster => ({
+                    name: cluster.name,
+                    data: cluster.data.map(d => ({ x: d.Income, y: d.total_amount }))
+                })),
+                chart: { height: 350, type: 'scatter', zoom: { enabled: true, type: 'xy' } },
+                xaxis: { title: { text: 'Income' } },
+                yaxis: { title: { text: 'Total Spend' } }
+            });
+            charts.clusterChart.render();
+
+            const segmentContainer = document.getElementById('segment-descriptions');
+            segmentContainer.innerHTML = '';
+            const colors = ['bg-primary', 'bg-success', 'bg-warning', 'bg-info'];
+            if (data.segment_descriptions) {
+                data.segment_descriptions.forEach((segment, i) => {
+                    segmentContainer.innerHTML += `
+                        <div class="col-md-3">
+                            <div class="card ${colors[i % colors.length]} text-white mb-3">
+                                <div class="card-header">${segment.title}</div>
+                                <div class="card-body">
+                                    <p class="card-text">${segment.description}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
