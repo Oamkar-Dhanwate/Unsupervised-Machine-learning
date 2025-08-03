@@ -1,8 +1,5 @@
 # Customer Segmentation Dashboard 🎯📊
 
-![Dashboard Preview](https://via.placeholder.com/800x400?text=Customer+Segmentation+Dashboard) 
-*(Replace with actual screenshot)*
-
 An interactive web dashboard for customer segmentation analysis, built with Flask. Visualize customer demographics, purchasing behavior, and marketing campaign effectiveness with powerful K-Means clustering insights.
 
 ## ✨ Features
