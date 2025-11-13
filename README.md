@@ -117,4 +117,6 @@ customer-segmentation/
 3.  Open your web browser and go to the local URL provided (e.g., `http://localhost:8501`).
 
 4.  Use the sidebar to enter a customer's details and click "Analyze Customer Profile" to see the results.
-````
+   ![Customer Segmentation Dashboard Screenshot 1](image/Screenshot%202025-11-13%20212119.png)
+   ![Customer Segmentation Dashboard Screenshot 2](image/Screenshot%202025-11-13%20212213.png)
+
