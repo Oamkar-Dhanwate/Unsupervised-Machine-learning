@@ -55,22 +55,20 @@ The analysis and models were developed in the `notebook/EDA.ipynb` notebook.
 * **Visualization:** Plotly, Matplotlib, Seaborn
 
 ## 5. Project Structure
+
+```
 customer-segmentation/
-│
 ├── dashboard/
-│   └── app.py            \# The main Streamlit application
-│
+│   └── app.py
 ├── data/
-│   └── customer\_segmentation.csv  \# The raw dataset
-│
+│   └── customer_segmentation.csv
 ├── model/
-│   ├── xgboost\_pipeline.pkl  \# Trained XGBoost model for response prediction
-│   └── kmeans\_clustering.pkl \# Trained K-Means model for segmentation
-│
+│   ├── kmeans_clustering.pkl
+│   └── xgboost_pipeline.pkl
 ├── notebook/
-│   └── EDA.ipynb         \# Jupyter notebook for analysis and model training
-│
-└── requirements.txt      \# Python dependencies
+│   └── EDA.ipynb
+└── requirements.txt
+```
 
 ## 6. Installation & Setup
 
